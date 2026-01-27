@@ -1,38 +1,30 @@
 import { LabelI } from './../interfaces/labels';
 import { Injectable } from '@angular/core';
-import { liveQuery } from 'dexie';
-import { db } from '../db/db'
+import { AmplifyDataService } from './amplify-data.service';
+
 @Injectable({
   providedIn: 'root'
 })
 export class LabelsService {
 
-  constructor() { }
+  constructor(private amplifyData: AmplifyDataService) { }
 
-  labelsList$ = liveQuery(() => db.labels.toArray())
+  labelsList$ = this.amplifyData.labels$;
 
   async add(labelObj: LabelI) {
-    return db.labels.add(labelObj)
+    return this.amplifyData.addLabel(labelObj);
   }
 
-  delete(id: number) {
-    try {
-      db.labels.delete(id)
-    } catch (error) {
-      console.log(error)
+  delete(id: string) {
+    this.amplifyData.deleteLabel(id);
+  }
+
+  update(object: LabelI, id: string) {
+    if (id) {
+      const payload = { ...object, id };
+      this.amplifyData.updateLabel(payload);
     }
   }
-
-  update(object: LabelI, id: number) {
-    if (id !== -1) {
-      try {
-        db.labels.update(id, object)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  }
-
 
 }
 

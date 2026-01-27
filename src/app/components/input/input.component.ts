@@ -138,11 +138,11 @@ export class InputComponent implements OnInit {
         this.Shared.closeModal.next(true)
       } else {
         let id = await this.Shared.note.db.add(noteObj)
-        if (this.isArchived) {
+        if (this.isArchived && id) {
           this.Shared.snackBar({ action: 'archived', opposite: 'unarchived' }, { archived: false }, id)
         }
-        if (this.isTrashed) {
-          this.Shared.snackBar({ action: 'trashed', opposite: 'untrashed' }, { trashed: false }, id)
+        if (this.isTrashed && id) {
+          this.Shared.snackBar({ action: 'trashed', opposite: 'restored' }, { trashed: false }, id)
         }
         this.closeNote()
       }
@@ -216,7 +216,7 @@ export class InputComponent implements OnInit {
       this.images = []
     }
     this.images.push({
-      id: Date.now(),
+      id: Date.now().toString(),
       data: imageData,
       width: width,
       height: height,
@@ -224,7 +224,7 @@ export class InputComponent implements OnInit {
     })
   }
 
-  removeImage(imageId: number) {
+  removeImage(imageId: string) {
     if (this.images) {
       const index = this.images.findIndex(img => img.id === imageId)
       if (index !== -1) {
@@ -256,12 +256,12 @@ export class InputComponent implements OnInit {
     this.checkBoxes.push({
       done: false,
       data: data,
-      id: this.checkBoxes.length
+      id: crypto.randomUUID() // Should be unique string
     })
     this.inputLength.next({ ...this.inputLength.value, cb: this.checkBoxes.length })
   }
 
-  cBoxKeyDown($event: KeyboardEvent, id: number) {
+  cBoxKeyDown($event: KeyboardEvent, id: string) {
     let target = $event.target as HTMLDivElement
     if ($event.key === 'Enter') {
       $event.preventDefault()
@@ -274,7 +274,7 @@ export class InputComponent implements OnInit {
   }
 
 
-  cboxTools(id: number) {
+  cboxTools(id: string) {
     let i = this.checkBoxes.findIndex(x => x.id === id)
     let actions = {
       remove: () => {

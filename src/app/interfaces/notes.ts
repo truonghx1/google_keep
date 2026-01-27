@@ -1,7 +1,7 @@
 import { LabelI } from './labels';
 
 export interface ImageI {
-    id: number
+    id: string
     data: string // base64 encoded image
     width?: number
     height?: number
@@ -9,7 +9,7 @@ export interface ImageI {
 }
 
 export interface NoteI {
-    id?: number
+    id?: string
     noteTitle: string
     noteBody?: string
     pinned: boolean
@@ -26,7 +26,7 @@ export interface NoteI {
 export interface CheckboxI {
     done: boolean,
     data: any,
-    id: number
+    id: string
 }
 
 export type UpdateKeyI = {
@@ -34,15 +34,15 @@ export type UpdateKeyI = {
 }
 
 export interface NoteModelI {
-    id: number
+    id: string
     pinned: NoteI[]
     unpinned: NoteI[]
     all: NoteI[]
     db: {
-        add(data: NoteI): Promise<number>
+        add(data: NoteI): Promise<string | undefined>
         update(data: NoteI): void
         updateKey(object: UpdateKeyI): void
-        updateAllLabels(labelId: number, labelValue: string): void
+        updateAllLabels(labelId: string, labelValue: string): void
         get(): Promise<NoteI>
         clone(): void
         delete(): void

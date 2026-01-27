@@ -41,7 +41,7 @@ export class NavComponent implements OnInit {
       .catch(x => { if (x.name === "ConstraintError") this.labelError.nativeElement.hidden = false; el.focus() })
   }
 
-  editLabel(id: number) {
+  editLabel(id: string) {
     this.Shared.label.id = id
     let actions: LabelActionsT = {
       delete: () => {
@@ -69,7 +69,7 @@ export class NavComponent implements OnInit {
     '#e52592', // Pink
   ]
 
-  colorPickerOpen: number | null = null
+  colorPickerOpen: string | null = null
 
   toggleColorPicker(label: any) {
     if (this.colorPickerOpen === label.id) {

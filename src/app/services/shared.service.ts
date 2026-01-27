@@ -43,7 +43,7 @@ export class SharedService {
   // ? note -------------------------------------------------
 
   note: NoteModelI = {
-    id: -1,
+    id: '',
     pinned: [],
     unpinned: [],
     all: [],
@@ -51,7 +51,7 @@ export class SharedService {
       add: (data: NoteI) => this.Notes.add(data),
       update: (data: NoteI) => this.Notes.update(data, this.note.id),
       updateKey: (data: UpdateKeyI) => this.Notes.updateKey(data, this.note.id),
-      updateAllLabels: (labelId: number, labelValue: string) => this.Notes.updateAllLabels(labelId, labelValue),
+      updateAllLabels: (labelId: string, labelValue: string) => this.Notes.updateAllLabels(labelId, labelValue),
       get: () => this.Notes.get(this.note.id),
       clone: () => this.Notes.clone(this.note.id),
       delete: () => this.Notes.delete(this.note.id),
@@ -66,7 +66,7 @@ export class SharedService {
   // ? labell -------------------------------------------------
 
   label: LabelModelI = {
-    id: -1,
+    id: '',
     list: [],
     db: {
       add: async (data: LabelI) => this.Labels.add(data),
@@ -78,7 +78,7 @@ export class SharedService {
 
   // ? snakebar (aka toast) --------------------------------------
 
-  snackBar(text: { action: string, opposite: string }, obj: UpdateKeyI, noteId: number) {
+  snackBar(text: { action: string, opposite: string }, obj: UpdateKeyI, noteId: string) {
     Snackbar.show({
       pos: 'bottom-left',
       text: `Note ${text.action}`,

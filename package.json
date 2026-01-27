@@ -4,6 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "amplify:sandbox": "npx ampx sandbox",
+    "amplify:generate": "npx ampx generate outputs",
     "s": "ng serve --host 192.168.1.17",
     "build": "ng build",
     "purgecss": "purgecss -c purgecss.config.js",
@@ -23,6 +25,7 @@
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
     "@popperjs/core": "^2.11.5",
+    "aws-amplify": "^6.16.0",
     "bricks.js": "^1.8.0",
     "dexie": "^3.2.2",
     "node-snackbar": "^0.1.16",

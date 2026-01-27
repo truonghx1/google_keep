@@ -1,5 +1,5 @@
 export interface LabelI {
-    id?: number
+    id?: string
     name: string
     added?: boolean
     color?: string  // Label color for sidebar display
@@ -15,7 +15,7 @@ export type UpdateKeyI = {
 }
 
 export interface LabelModelI {
-    id: number
+    id: string
     list: LabelI[]
     db: {
         add(data: LabelI): Promise<any>
