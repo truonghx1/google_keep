@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { MainComponent } from './components/main/main.component';
 import { NavComponent } from './components/sidenav/sidenav.component';
@@ -28,6 +29,7 @@ import { NotesToolsPipe } from './pipes/notes-tools.pipe';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
