@@ -17,12 +17,12 @@ const schema = a.schema({
         archived: a.boolean(),
         trashed: a.boolean(),
         images: a.json(), // Array of ImageI
-    }).authorization(allow => [allow.owner()]),
+    }).authorization((allow: any) => [allow.owner()]),
 
     Label: a.model({
         name: a.string().required(),
         color: a.string(),
-    }).authorization(allow => [allow.owner()]),
+    }).authorization((allow: any) => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;

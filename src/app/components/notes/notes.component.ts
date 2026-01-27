@@ -130,7 +130,7 @@ export class NotesComponent implements OnInit {
 
   //? pin note  -----------------------------------------------------------
 
-  togglePin(noteId: number, pinned: boolean) {
+  togglePin(noteId: string, pinned: boolean) {
     this.Shared.note.id = noteId
     pinned = !pinned
     this.Shared.note.db.updateKey({ pinned: pinned })
@@ -146,7 +146,7 @@ export class NotesComponent implements OnInit {
   //? tooltip  -----------------------------------------------------------
 
   Ttbutton?: HTMLDivElement // used in moreMenu.openLabelMenu
-  openTooltip(button: HTMLDivElement, tooltipEl: HTMLDivElement, noteId: number) {
+  openTooltip(button: HTMLDivElement, tooltipEl: HTMLDivElement, noteId: string) {
     this.Shared.note.id = noteId
     this.Ttbutton = button
     this.Shared.createTooltip(button, tooltipEl)
@@ -193,7 +193,7 @@ export class NotesComponent implements OnInit {
 
   // ? archive page
 
-  toggleArchive(noteId: number, archived: boolean) {
+  toggleArchive(noteId: string, archived: boolean) {
     this.Shared.note.id = noteId
     archived = !archived
     this.Shared.note.db.updateKey({ archived: archived })
@@ -203,12 +203,12 @@ export class NotesComponent implements OnInit {
 
   // ? trash page
 
-  removeNote(noteId: number) {
+  removeNote(noteId: string) {
     this.Shared.note.id = noteId
     this.Shared.note.db.delete()
   }
 
-  restoreNote(noteId: number) {
+  restoreNote(noteId: string) {
     this.Shared.note.id = noteId
     this.Shared.note.db.updateKey({ trashed: false, archived: false })
     this.Shared.snackBar({ action: 'restored', opposite: 'trashed' }, { trashed: true }, noteId)

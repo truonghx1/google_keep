@@ -23,19 +23,19 @@ export class AmplifyDataService {
 
     private initSubscriptions() {
         this.client.models.Note.observeQuery().subscribe({
-            next: (data) => {
+            next: (data: any) => {
                 // Map Amplify models to NoteI (ensure types match)
                 // IDs are strings in Amplify, so we assume NoteI is updated to string ID.
                 this.notesSubject.next(data.items as unknown as NoteI[]);
             },
-            error: (err) => console.error('Error observing notes', err)
+            error: (err: any) => console.error('Error observing notes', err)
         });
 
         this.client.models.Label.observeQuery().subscribe({
-            next: (data) => {
+            next: (data: any) => {
                 this.labelsSubject.next(data.items as unknown as LabelI[]);
             },
-            error: (err) => console.error('Error observing labels', err)
+            error: (err: any) => console.error('Error observing labels', err)
         });
     }
 

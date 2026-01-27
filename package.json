@@ -27,6 +27,7 @@
     "@popperjs/core": "^2.11.5",
     "aws-amplify": "^6.16.0",
     "bricks.js": "^1.8.0",
+    "zod": "^3.25.17",
     "dexie": "^3.2.2",
     "node-snackbar": "^0.1.16",
     "rxjs": "~7.5.0",
