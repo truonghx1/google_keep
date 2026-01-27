@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CboxSortPipe } from './pipes/cbox-sort.pipe';
 import { CboxDonePipe } from './pipes/cbox-done.pipe';
 import { NotesToolsPipe } from './pipes/notes-tools.pipe';
+import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { NotesToolsPipe } from './pipes/notes-tools.pipe';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    AmplifyAuthenticatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
