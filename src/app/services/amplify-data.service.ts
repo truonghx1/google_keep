@@ -49,7 +49,7 @@ export class AmplifyDataService {
     }
 
     async updateNote(note: NoteI) {
-        if (!note.id) return;
+        if (!note.id) return { data: null };
         const { ...rest } = note;
         return await this.client.models.Note.update(rest as any);
     }

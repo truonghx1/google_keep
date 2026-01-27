@@ -14,7 +14,7 @@ export class NotesService {
   async add(noteObj: NoteI) {
     try {
       const res = await this.amplifyData.addNote(noteObj);
-      return res?.id;
+      return res?.data?.id;
     } catch (error) {
       console.log(error);
       return undefined;
