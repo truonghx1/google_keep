@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { MainComponent } from './components/main/main.component';
 import { NavComponent } from './components/sidenav/sidenav.component';
@@ -29,6 +31,8 @@ import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
   ],
   imports: [
     BrowserModule,
+    CommonModule,
+    RouterModule,
     AppRoutingModule,
     FormsModule,
     AmplifyAuthenticatorModule,

@@ -9,7 +9,7 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm install
+        - npm ci
     build:
       commands:
         - npx ampx generate outputs --app-id $AWS_APP_ID --branch $AWS_BRANCH
@@ -19,5 +19,4 @@ frontend:
     files:
       - '**/*'
   cache:
-    paths:
-      - node_modules/**/*
+    paths: []
