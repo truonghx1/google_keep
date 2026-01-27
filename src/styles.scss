@@ -1,10 +1,10 @@
-@import '@aws-amplify/ui-angular/theme.css';
+// @import '@aws-amplify/ui-angular/theme.css';
 
 :root {
   --note-width: 240px;
   /* Amplify Authenticator Theme */
-  --amplify-components-authenticator-router-box-shadow: 0 0 16px var(--amplify-colors-overlay-10);
-  --amplify-components-authenticator-router-border-width: 0;
+  /* --amplify-components-authenticator-router-box-shadow: 0 0 16px var(--amplify-colors-overlay-10);
+  --amplify-components-authenticator-router-border-width: 0; */
 }
 
 .main {
@@ -13,10 +13,10 @@
 }
 
 /* Amplify Authenticator Styles */
-amplify-authenticator {
+/* amplify-authenticator {
   --amplify-components-button-primary-background-color: #5f6368;
   --amplify-components-button-primary-hover-background-color: #3c4043;
-}
+} */
 
 .H:hover {
   outline: none !important;
