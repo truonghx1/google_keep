@@ -13,7 +13,7 @@ frontend:
     build:
       commands:
         - npx ampx generate outputs --app-id $AWS_APP_ID --branch $AWS_BRANCH
-        - npm run build
+        - npm run build -- --configuration production
   artifacts:
     baseDirectory: dist/keep
     files:
