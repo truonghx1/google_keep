@@ -1,0 +1,87 @@
+//? Images in notes
+.images-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 8px;
+  padding: 0 12px 12px 12px;
+  max-width: 100%;
+
+  .image-item {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .image-remove-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+    }
+
+    &:hover .image-remove-btn {
+      opacity: 1;
+    }
+  }
+
+  .more-images {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    font-size: 1.5rem;
+    font-family: 'Google Sans';
+    color: rgba(255, 255, 255, 0.7);
+    aspect-ratio: 1;
+  }
+
+  // When there's only 1 image, make it bigger
+  &:has(.image-item:only-child) {
+    .image-item {
+      grid-column: 1 / -1;
+      max-height: 300px;
+      aspect-ratio: auto;
+
+      img {
+        object-fit: contain;
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+
+  // When there are 2 images, make them side by side
+  &:has(.image-item:nth-child(2):last-child) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  // When there are 3 or more images
+  &:has(.image-item:nth-child(3)) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
