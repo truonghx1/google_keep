@@ -21,33 +21,56 @@ export class AmplifyDataService {
     private isAmplifyConnected = true;
 
     constructor() {
+        // Check if Amplify outputs contain placeholder values and force local storage mode
+        this.checkAmplifyConfiguration();
         this.initSubscriptions();
     }
 
-    private initSubscriptions() {
-        this.client.models.Note.observeQuery().subscribe({
-            next: (data: any) => {
-                // Map Amplify models to NoteI (ensure types match)
-                // IDs are strings in Amplify, so we assume NoteI is updated to string ID.
-                this.notesSubject.next(data.items as unknown as NoteI[]);
-            },
-            error: (err: any) => {
-                console.error('Error observing notes, falling back to local storage', err);
-                this.isAmplifyConnected = false;
-                this.loadFromLocalStorage();
-            }
-        });
+    private checkAmplifyConfiguration() {
+        // Check if any placeholder values exist in the config
+        const outputs = (window as any).amplifyConfig || {};
+        const hasPlaceholders = 
+            outputs.auth?.user_pool_id?.includes('PLACEHOLDER') ||
+            outputs.auth?.user_pool_client_id?.includes('PLACEHOLDER') ||
+            outputs.data?.url?.includes('PLACEHOLDER') ||
+            outputs.data?.api_key?.includes('PLACEHOLDER') ||
+            outputs.data?.url?.includes('dummy'); // Our mock values
+        
+        if (hasPlaceholders) {
+            console.log('Amplify configuration has placeholder values, using local storage mode');
+            this.isAmplifyConnected = false;
+            this.loadFromLocalStorage();
+            this.loadLabelsFromLocalStorage();
+        }
+    }
 
-        this.client.models.Label.observeQuery().subscribe({
-            next: (data: any) => {
-                this.labelsSubject.next(data.items as unknown as LabelI[]);
-            },
-            error: (err: any) => {
-                console.error('Error observing labels, falling back to local storage', err);
-                this.isAmplifyConnected = false;
-                this.loadLabelsFromLocalStorage();
-            }
-        });
+    private initSubscriptions() {
+        // Only attempt Amplify subscriptions if we believe connection is viable
+        if (this.isAmplifyConnected) {
+            this.client.models.Note.observeQuery().subscribe({
+                next: (data: any) => {
+                    // Map Amplify models to NoteI (ensure types match)
+                    // IDs are strings in Amplify, so we assume NoteI is updated to string ID.
+                    this.notesSubject.next(data.items as unknown as NoteI[]);
+                },
+                error: (err: any) => {
+                    console.error('Error observing notes, falling back to local storage', err);
+                    this.isAmplifyConnected = false;
+                    this.loadFromLocalStorage();
+                }
+            });
+
+            this.client.models.Label.observeQuery().subscribe({
+                next: (data: any) => {
+                    this.labelsSubject.next(data.items as unknown as LabelI[]);
+                },
+                error: (err: any) => {
+                    console.error('Error observing labels, falling back to local storage', err);
+                    this.isAmplifyConnected = false;
+                    this.loadLabelsFromLocalStorage();
+                }
+            });
+        }
     }
 
     private async loadFromLocalStorage() {
