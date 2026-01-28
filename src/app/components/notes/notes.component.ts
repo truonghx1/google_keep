@@ -25,7 +25,7 @@ export class NotesComponent implements OnInit {
     trash: false,
     label: undefined
   }
-  currentPageName = ''
+  currentPageName = 'home'
   labels: LabelI[] = []
   bgColors = bgColors
   bgImages = bgImages

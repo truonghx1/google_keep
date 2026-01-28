@@ -3,11 +3,15 @@ import { NoteI } from '../interfaces/notes';
 
 @Pipe({
   name: 'notesTools',
-  // pure: false
+  pure: false
 })
 export class NotesToolsPipe implements PipeTransform {
 
   transform(object: NoteI[], type: string): NoteI[] {
+    if (!object || !Array.isArray(object)) {
+      return [];
+    }
+    
     if (type === 'archived') {
       return object.filter(x => x.archived === true && x.trashed === false)
     }
@@ -18,7 +22,8 @@ export class NotesToolsPipe implements PipeTransform {
       return object.filter(x => x.trashed === false && x.archived === false)
     }
     else {
-      return object.filter(note => note.labels.some(label => label.name === type && label.added))
+      // Filter by label name - with null safety check
+      return object.filter(note => note.labels?.some(label => label.name === type && label.added))
     }
   }
 
