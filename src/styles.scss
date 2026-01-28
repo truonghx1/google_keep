@@ -1,10 +1,16 @@
-// @import '@aws-amplify/ui-angular/theme.css';
+@import '@aws-amplify/ui/theme.css';
 
 :root {
   --note-width: 240px;
-  /* Amplify Authenticator Theme */
-  /* --amplify-components-authenticator-router-box-shadow: 0 0 16px var(--amplify-colors-overlay-10);
-  --amplify-components-authenticator-router-border-width: 0; */
+  
+  /* Amplify Authenticator Theme - Google Keep style */
+  --amplify-components-authenticator-router-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  --amplify-components-authenticator-router-border-width: 0;
+  --amplify-components-button-primary-background-color: #1a73e8;
+  --amplify-components-button-primary-hover-background-color: #1557b0;
+  --amplify-colors-brand-primary-80: #1a73e8;
+  --amplify-colors-brand-primary-90: #1557b0;
+  --amplify-colors-brand-primary-100: #174ea6;
 }
 
 .main {
@@ -13,10 +19,16 @@
 }
 
 /* Amplify Authenticator Styles */
-/* amplify-authenticator {
-  --amplify-components-button-primary-background-color: #5f6368;
-  --amplify-components-button-primary-hover-background-color: #3c4043;
-} */
+amplify-authenticator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+[data-amplify-authenticator] {
+  --amplify-components-fieldcontrol-focus-border-color: #1a73e8;
+}
 
 .H:hover {
   outline: none !important;

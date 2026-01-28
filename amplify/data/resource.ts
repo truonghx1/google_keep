@@ -1,28 +1,31 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 
-/*== STEP 1 ===============================================================
-The section below creates a Todo database table with a "content" field. https://docs.amplify.aws/gen2/build-a-backend/data/model-based-data-schema/
-=========================================================================*/
+/**
+ * Google Keep Notes Schema for AWS DynamoDB
+ * - Notes and Labels are stored per-user (owner-based authorization)
+ * - Data syncs automatically across all devices
+ */
 const schema = a.schema({
     Note: a.model({
-        // We use string ID for cloud compatibility. Client needs to handle mapping or migration.
         noteTitle: a.string().required(),
         noteBody: a.string(),
         pinned: a.boolean().default(false),
-        bgColor: a.string(),
-        bgImage: a.string(),
-        checkBoxes: a.json(), // Array of CheckboxI
-        isCbox: a.boolean(),
-        labels: a.json(), // Array of LabelI
-        archived: a.boolean(),
-        trashed: a.boolean(),
-        images: a.json(), // Array of ImageI
-    }).authorization((allow: any) => [allow.owner()]),
+        bgColor: a.string().default('#ffffff'),
+        bgImage: a.string().default(''),
+        checkBoxes: a.json(), // Array of CheckboxI objects
+        isCbox: a.boolean().default(false),
+        labels: a.json(), // Array of LabelI objects
+        archived: a.boolean().default(false),
+        trashed: a.boolean().default(false),
+        images: a.json(), // Array of ImageI objects (base64 encoded)
+        createdAt: a.datetime(),
+        updatedAt: a.datetime(),
+    }).authorization((allow) => [allow.owner()]),
 
     Label: a.model({
         name: a.string().required(),
-        color: a.string(),
-    }).authorization((allow: any) => [allow.owner()]),
+        color: a.string().default('#5f6368'),
+    }).authorization((allow) => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -31,5 +34,9 @@ export const data = defineData({
     schema,
     authorizationModes: {
         defaultAuthorizationMode: 'userPool',
+        // API key for public access (optional, not used by default)
+        apiKeyAuthorizationMode: {
+            expiresInDays: 365,
+        },
     },
 });
