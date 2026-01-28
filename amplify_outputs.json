@@ -131,14 +131,16 @@
               "isArray": false,
               "type": "AWSDateTime",
               "isRequired": false,
-              "attributes": []
+              "attributes": [],
+              "isReadOnly": true
             },
             "updatedAt": {
               "name": "updatedAt",
               "isArray": false,
               "type": "AWSDateTime",
               "isRequired": false,
-              "attributes": []
+              "attributes": [],
+              "isReadOnly": true
             }
           },
           "syncable": true,

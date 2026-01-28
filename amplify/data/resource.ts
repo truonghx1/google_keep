@@ -18,8 +18,7 @@ const schema = a.schema({
         archived: a.boolean().default(false),
         trashed: a.boolean().default(false),
         images: a.json(), // Array of ImageI objects (base64 encoded)
-        createdAt: a.datetime(),
-        updatedAt: a.datetime(),
+        // Note: createdAt and updatedAt are auto-managed by Amplify Gen 2
     }).authorization((allow) => [allow.owner()]),
 
     Label: a.model({
