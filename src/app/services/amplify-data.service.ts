@@ -41,7 +41,7 @@ export class AmplifyDataService {
             // Try to get current user session to verify Amplify is properly configured
             const user = await getCurrentUser();
             const session = await fetchAuthSession();
-            
+
             if (user && session.tokens) {
                 console.log('AWS Amplify connected successfully');
                 this.isAmplifyConnected = true;
@@ -55,7 +55,7 @@ export class AmplifyDataService {
             }
         } catch (error: any) {
             // Check if it's just a "not authenticated" error vs actual config issue
-            if (error?.name === 'UserUnAuthenticatedException' || 
+            if (error?.name === 'UserUnAuthenticatedException' ||
                 error?.message?.includes('not authenticated')) {
                 console.log('User not logged in, using local storage mode');
                 this.isAmplifyConnected = false;
@@ -102,12 +102,12 @@ export class AmplifyDataService {
                     pinned: item.pinned || false,
                     bgColor: item.bgColor || '#ffffff',
                     bgImage: item.bgImage || '',
-                    checkBoxes: item.checkBoxes || [],
+                    checkBoxes: this.parseJsonField(item.checkBoxes, []),
                     isCbox: item.isCbox || false,
-                    labels: item.labels || [],
+                    labels: this.parseJsonField(item.labels, []),
                     archived: item.archived || false,
                     trashed: item.trashed || false,
-                    images: item.images || [],
+                    images: this.parseJsonField(item.images, []),
                 })) as NoteI[];
                 this.notesSubject.next(notes);
             },
@@ -172,12 +172,12 @@ export class AmplifyDataService {
                     pinned: noteData.pinned || false,
                     bgColor: noteData.bgColor || '#ffffff',
                     bgImage: noteData.bgImage || '',
-                    checkBoxes: noteData.checkBoxes || null,
+                    checkBoxes: this.stringifyJsonField(noteData.checkBoxes),
                     isCbox: noteData.isCbox || false,
-                    labels: noteData.labels || null,
+                    labels: this.stringifyJsonField(noteData.labels),
                     archived: noteData.archived || false,
                     trashed: noteData.trashed || false,
-                    images: noteData.images || null,
+                    images: this.stringifyJsonField(noteData.images),
                 } as any);
                 return { data: { id: result.data?.id || '' } };
             } catch (error) {
@@ -202,7 +202,7 @@ export class AmplifyDataService {
 
     async updateNote(note: NoteI): Promise<{ data: any }> {
         if (!note.id) return { data: null };
-        
+
         if (this.isAmplifyConnected) {
             try {
                 const result = await this.client.models.Note.update({
@@ -212,12 +212,12 @@ export class AmplifyDataService {
                     pinned: note.pinned || false,
                     bgColor: note.bgColor || '#ffffff',
                     bgImage: note.bgImage || '',
-                    checkBoxes: note.checkBoxes || null,
+                    checkBoxes: this.stringifyJsonField(note.checkBoxes),
                     isCbox: note.isCbox || false,
-                    labels: note.labels || null,
+                    labels: this.stringifyJsonField(note.labels),
                     archived: note.archived || false,
                     trashed: note.trashed || false,
-                    images: note.images || null,
+                    images: this.stringifyJsonField(note.images),
                 } as any);
                 return { data: result.data };
             } catch (error) {
@@ -300,7 +300,7 @@ export class AmplifyDataService {
 
     async updateLabel(label: LabelI): Promise<{ data: any } | undefined> {
         if (!label.id) return;
-        
+
         if (this.isAmplifyConnected) {
             try {
                 const result = await this.client.models.Label.update({
@@ -357,6 +357,32 @@ export class AmplifyDataService {
     }
 
     // ==================== UTILITY METHODS ====================
+
+    /**
+     * Stringify array/object fields for AppSync AWSJSON type
+     */
+    private stringifyJsonField(value: any[] | undefined | null): string | null {
+        if (!value || (Array.isArray(value) && value.length === 0)) {
+            return null;
+        }
+        return JSON.stringify(value);
+    }
+
+    /**
+     * Parse AWSJSON string fields back to arrays/objects
+     */
+    private parseJsonField<T>(value: string | T[] | undefined | null, defaultValue: T[]): T[] {
+        if (!value) return defaultValue;
+        if (typeof value === 'string') {
+            try {
+                return JSON.parse(value);
+            } catch (e) {
+                console.error('Failed to parse JSON field:', e);
+                return defaultValue;
+            }
+        }
+        return value as T[];
+    }
 
     public isConnectedToCloud(): boolean {
         return this.isAmplifyConnected;
